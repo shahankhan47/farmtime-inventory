@@ -326,7 +326,7 @@ const getWidgetDetails = async () => {
 
 const createMaterials = async (data) => {
     try {
-        await axios.post(`${backendUrl}/material/`, data);
+        await axios.post(`${backendUrl}/material`, data);
     }
     catch (error) {
         console.log(error);
@@ -335,7 +335,7 @@ const createMaterials = async (data) => {
 
 const getAllMaterials = async () => {
     try {
-        const response = await axios.get(`${backendUrl}/material/`);
+        const response = await axios.get(`${backendUrl}/material`);
         return response.data;
     }
     catch (error) {
@@ -381,7 +381,7 @@ const getMaterialByName = async(name) => {
 
 const createBatchRecord = async (data) => {
     try {
-        const response = await axios.post(`${backendUrl}/batch/`, data);
+        const response = await axios.post(`${backendUrl}/batch`, data);
         return response.status;
     }
     catch (error) {
