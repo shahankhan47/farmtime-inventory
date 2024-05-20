@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const backendUrl = "https://farmtime-backend.vercel.app"
+const backendUrl = "https://farmtime-backend.vercel.app/api"
 
 const createService = async (formData) => {
     try {
