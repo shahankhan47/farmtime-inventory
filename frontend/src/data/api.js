@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const backendUrl = "mongodb+srv://skhan:leolm10@farmtime.4mi2rdj.mongodb.net/"
+const backendUrl = "https://farmtime-backend.vercel.app"
 
 const createService = async (formData) => {
     try {
