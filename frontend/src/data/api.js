@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const backendUrl = "http://localhost:5000/api"
+const backendUrl = "mongodb+srv://skhan:leolm10@farmtime.4mi2rdj.mongodb.net/"
 
 const createService = async (formData) => {
     try {
