@@ -31,8 +31,8 @@ const CreateTech = () => {
       alert("Please select a material")
     }
     else {
-      let amount = jobDetails.operation === "Increase" ? 
-      material.amount + Number(jobDetails.amount) : material.amount - Number(jobDetails.amount);
+      let amount = jobDetails.operation === "Decrease" ? 
+      material.amount - Number(jobDetails.amount) : material.amount + Number(jobDetails.amount);
       updateMaterial(material.id, {amount}).then((status) => {
         if (status === 200) {
           createBatchRecord({ ...jobDetails, finalAmount: amount }).then((responseStatus) => {
@@ -44,7 +44,7 @@ const CreateTech = () => {
             }
             setJobDetails({
               name: '',
-              operation: '',
+              operation: 'Increase',
               amount: 0,
               batch: '',
               comment: ''
