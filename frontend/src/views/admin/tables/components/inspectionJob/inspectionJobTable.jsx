@@ -1,35 +1,33 @@
 import React, { useEffect, useState } from "react";
-
 import Card from "components/card";
-
-import JobDetailsModal from "./jobDetailsModel";
-import { getJobsofType, deleteJob } from "data/api";
+import AssignTechnicianModel from './assignTechnician';
+import { getBatchRecords } from "data/api";
 import MUIDataTable from "mui-datatables";
 
 
 const DevelopmentTable = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedJob, setSelectedJob] = useState({});
-  const [jobData, setJobData] = useState([])
+  const [batch, setBatch] = useState({});
+  const [records, setRecords] = useState([])
 
   useEffect(() => {
-    getJobsofType({type: "Inspection"}).then((jobs) => {
-      setJobData(jobs.data)
+    getBatchRecords().then((results) => {
+      setRecords(results)
     })
   }, [])
   
   const columnsData = [
     {
-      name: "jobId",
-      label: "JOB ID",
+      name: "_id",
+      label: "BATCH NO",
       options: {
         filter: true,
         sort: true,
       }
     },
     {
-      name: "service",
-      label: "SERVICE",
+      name: "total",
+      label: "MATERIALS MODIFIED",
       options: {
         filter: true,
         sort: true,
@@ -37,15 +35,7 @@ const DevelopmentTable = () => {
     },
     {
       name: "date",
-      label: "DATE",
-      options: {
-        filter: true,
-        sort: true,
-      }
-    },
-    {
-      name: "status",
-      label: "STATUS",
+      label: "LAST ADDED DATE",
       options: {
         filter: true,
         sort: true,
@@ -61,7 +51,7 @@ const DevelopmentTable = () => {
           return (
             <button
               className="px-2 py-2 text-blue-800 bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-600 hover:to-blue-600 border border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-              onClick={() => openModal(jobData[tableMeta.rowIndex])}
+              onClick={() => openModal(records[tableMeta.rowIndex])}
             >
               Details
             </button>
@@ -71,25 +61,15 @@ const DevelopmentTable = () => {
     },
   ];
 
-
-
-  const deleteSelectedJob = async () => {
-    await deleteJob(selectedJob);
-    getJobsofType({type: "Inspection"}).then((jobs) => {
-      setJobData(jobs.data)
-    });
-    setShowModal(false);
-    setSelectedJob({});
-  }
-
   const openModal = (row) => {
-    setSelectedJob(row);
+    console.log(row);
+    setBatch(row);
     setShowModal(true);
   };
 
   const closeModal = () => {
     setShowModal(false);
-    setSelectedJob({});
+    setBatch({});
   };
 
   return (
@@ -97,7 +77,7 @@ const DevelopmentTable = () => {
     <div className="mt-8 h-full overflow-x-scroll xl:overflow-hidden">
       <MUIDataTable
         title={<p className="text-xl font-bold text-navy-700 dark:text-white">View History</p>}
-        data={jobData}
+        data={records}
         columns={columnsData}
         options={{
           selectableRows: "none", // Disable row selection
@@ -105,13 +85,13 @@ const DevelopmentTable = () => {
       />
     </div>
 
-    {/* Display the modal when showModal is true */}
-    <JobDetailsModal 
+    {showModal && 
+    <AssignTechnicianModel
+    onClose={closeModal}
     isOpen={showModal} 
-    onClose={closeModal} 
-    job={selectedJob}
-    deleteJob={deleteSelectedJob}
-    />
+    job={batch}
+    setJob={batch}
+    />}
   </Card>
   );
 };

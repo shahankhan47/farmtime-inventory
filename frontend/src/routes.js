@@ -35,30 +35,30 @@ let routes = [
     icon: <MdHome className="h-6 w-6" />,
     component: <MainDashboard />,
   },
-  {
-    name: "Admins",
-    layout: "/admin",
-    path: "administration",
-    icon: <MdOutlineAdminPanelSettings className="h-6 w-6" />,
-    component: <AdminController/>,
-    secondary: true,
-  },
-  {
-    name: "Service Providers",
-    layout: "/admin",
-    path: "technician",
-    icon: <MdElectricalServices className="h-6 w-6" />,
-    component: <NFTMarketplace />,
-    secondary: true,
-  },
-  {
-    name: "Customers",
-    layout: "/admin",
-    path: "customer",
-    icon: <MdSupervisedUserCircle className="h-6 w-6" />,
-    component: <Customer />,
-    secondary: true,
-  },
+  // {
+  //   name: "Admins",
+  //   layout: "/admin",
+  //   path: "administration",
+  //   icon: <MdOutlineAdminPanelSettings className="h-6 w-6" />,
+  //   component: <AdminController/>,
+  //   secondary: true,
+  // },
+  // {
+  //   name: "Service Providers",
+  //   layout: "/admin",
+  //   path: "technician",
+  //   icon: <MdElectricalServices className="h-6 w-6" />,
+  //   component: <NFTMarketplace />,
+  //   secondary: true,
+  // },
+  // {
+  //   name: "Customers",
+  //   layout: "/admin",
+  //   path: "customer",
+  //   icon: <MdSupervisedUserCircle className="h-6 w-6" />,
+  //   component: <Customer />,
+  //   secondary: true,
+  // },
   {
     name: "Materials",
     layout: "/admin",
@@ -66,7 +66,6 @@ let routes = [
     path: "new-job",
     component: <NewJob />,
   },
-
   {
     name: "History",
     layout: "/admin",
@@ -74,8 +73,6 @@ let routes = [
     path: "job-tickets",
     component: <DataTables />,
   },
-
-
   {
     name: "Inventory",
     layout: "/admin",
@@ -83,14 +80,13 @@ let routes = [
     icon: <MdMiscellaneousServices className="h-6 w-6" />,
     component: <Service />,
   },
-  
-  {
-    name: "Profile",
-    layout: "/admin",
-    path: "profile",
-    icon: <MdPerson className="h-6 w-6" />,
-    component: <Profile />,
-  },
+  // {
+  //   name: "Profile",
+  //   layout: "/admin",
+  //   path: "profile",
+  //   icon: <MdPerson className="h-6 w-6" />,
+  //   component: <Profile />,
+  // },
   {
     name: "Sign Out",
     layout: "/admin",

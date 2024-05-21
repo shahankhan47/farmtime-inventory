@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Card from "components/card";
-import { getSortedTechnician, updateJob } from "data/api";
 
 import {
   useGlobalFilter,
@@ -10,39 +9,19 @@ import {
 } from "react-table";
 
 const columnsData = [
-  { Header: "ID", accessor: "id" },
-  { Header: "Name", accessor: "name" },
-  { Header: "Rating", accessor: "rating" },
-  { Header: "Distance", accessor: "distance" },
-  { Header: "Status", accessor: "status" }
+  { Header: "NAME", accessor: "name" },
+  { Header: "OPERATION", accessor: "operation" },
+  { Header: "INITIAL", accessor: "initialAmount" },
+  { Header: "FINAL", accessor: "finalAmount" },
+  { Header: "DATE", accessor: "dateAdded" },
+  { Header: "COMMENT", accessor: "comment" }
 ];
 
 const CheckTable = ({onClose, isDarkMode, job, setJob}) => {
-  const [techList, setTechList] = useState([])
-
-  useEffect(() => {
-    const request = {
-      zip: job.customerZip,
-      state: job.customerState
-    }
-    getSortedTechnician(request).then(list => {
-      const technicianList = list.map(technician => {
-        return {
-          id: technician?.taskNow_unique_id || "tecnician not found",
-          name: technician?.firstName || "tecnician not found",
-          rating: technician?.ratingsAndReviews || "tecnician not found",
-          distance: technician?.miles_distance.toString() || "tecnician not found",
-          originalTech: technician
-        }
-      })
-      setTechList(technicianList)
-    })
-  }, [job.customerZip, job.customerState])
-
   const tableInstance = useTable(
     {
       columns: columnsData,
-      data: techList,
+      data: job.materials,
     },
     useGlobalFilter,
     useSortBy,
@@ -59,48 +38,16 @@ const CheckTable = ({onClose, isDarkMode, job, setJob}) => {
   } = tableInstance;
   initialState.pageSize = 11;
 
-  const assignTechnician = async (row) => {
-    const updateData = job?.originalJob;
-    updateData.technician = {
-      distance: row?.originalTech?.miles_distance,
-      rating: row?.originalTech?.ratingsAndReviews,
-      email: row?.originalTech?.email,
-      id: row?.id,
-      firstName: row?.originalTech?.firstName,
-      lastName: row?.originalTech?.lastName,
-      phone: row?.originalTech?.phoneNumber,
-      paymentStatus: {
-        released: false,
-        amount: 0,
-        releaseDate: null
-      },
-      taskNow_unique_id: row?.id
-    }
-    updateData.job.status.assigned = "Pending";
-    updateData.job.status.customer = "Pending";
-    updateData.job.status.technician = "Pending";
-    updateData.job.dateModified = new Date();
-
-    await updateJob({JobId: job?.jobId, updateData})
-    const updatedCurrentJob = {...job};
-    updatedCurrentJob.technicianAssigned = true;
-    updatedCurrentJob.technicianName = row?.originalTech?.firstName;
-    updatedCurrentJob.technicianId = row?.originalTech?.taskNow_unique_id;
-    setJob(updatedCurrentJob);
-    onClose(false)
-    window.location.reload()
-  }
-
   return (
     <Card extra={"w-full h-full sm:overflow-auto px-6"}>
       <header className="relative flex items-center justify-between pt-4">
         <div className="text-xl font-bold text-navy-700 dark:text-white">
-          Technician List
+          Batch Details
         </div>
         <button
             onClick={onClose}
             className={`mt-4 ml-0 ${
-            isDarkMode ? "bg-gray-600 hover:bg-gray-700" : "bg-gray-400 hover:bg-gray-500"
+            isDarkMode ? "bg-gray-600 hover:bg-gray-700" : "bg-gray-600 hover:bg-gray-500"
             } text-white font-semibold py-2 px-4 rounded-full focus:outline-none focus:ring focus:ring-gray-300`}
         >
             Close
@@ -134,42 +81,48 @@ const CheckTable = ({onClose, isDarkMode, job, setJob}) => {
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell, cellIndex) => {
                     let data = "";
-                    if (cell.column.Header === "ID") {
+                    if (cell.column.Header === "NAME") {
                       data = (
                         <p className="text-sm font-bold text-navy-700 dark:text-white">
                           {cell.value}
                         </p>
                       );
                     }
-                    else if (cell.column.Header === "Name") {
+                    else if (cell.column.Header === "OPERATION") {
                       data = (
                         <p className="text-sm font-bold text-navy-700 dark:text-white">
                           {cell.value}
                         </p>
                       );
                     }
-                    else if (cell.column.Header === "Rating") {
+                    else if (cell.column.Header === "INITIAL") {
                         data = (
                           <p className="text-sm font-bold text-navy-700 dark:text-white">
                             {cell.value}
                           </p>
                         );
                     }
-                    else if (cell.column.Header === "Distance") {
+                    else if (cell.column.Header === "FINAL") {
                         data = (
                           <p className="text-sm font-bold text-navy-700 dark:text-white">
                             {cell.value}
                           </p>
                         );
                     }
-                    else if (cell.column.Header === "Status") {
+                    else if (cell.column.Header === "COMMENT") {
+                      data = (
+                        <p className="text-sm font-bold text-navy-700 dark:text-white">
+                          {cell.value}
+                        </p>
+                      );
+                    }
+                    else if (cell.column.Header === "DATE") {
                         data = (
-                            <button
-                            className="px-2 py-2 text-blue-800 bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-600 hover:to-blue-600 border border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-                            onClick={() => assignTechnician(row.original)}
-                          >
-                            Assign
-                          </button>
+                          <p className="text-sm font-bold text-navy-700 dark:text-white">
+                            {new Date(cell.value).getDate()}/
+                            {new Date(cell.value).getMonth()+1}/
+                            {new Date(cell.value).getFullYear()}
+                          </p>
                         );
                     }
                     return (

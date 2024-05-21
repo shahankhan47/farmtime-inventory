@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const backendUrl = "https://farmtime-backend.vercel.app/api"
+// const backendUrl = "http://localhost:5000/api"
 
 const createService = async (formData) => {
     try {
@@ -389,6 +390,16 @@ const createBatchRecord = async (data) => {
     }
 }
 
+const getBatchRecords = async () => {
+    try {
+        const response = await axios.get(`${backendUrl}/batch`);
+        return response.data;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 export {
     getAllMaterials,
     createMaterials,
@@ -397,6 +408,7 @@ export {
     getMaterialNamesList,
     getMaterialByName,
     createBatchRecord,
+    getBatchRecords,
     updateAdmin,
     deleteAdmin,
     createAdmin,
