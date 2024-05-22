@@ -11,8 +11,8 @@ import {
 const columnsData = [
   { Header: "NAME", accessor: "name" },
   { Header: "OPERATION", accessor: "operation" },
-  { Header: "INITIAL", accessor: "initialAmount" },
-  { Header: "FINAL", accessor: "finalAmount" },
+  { Header: "BY", accessor: "initialAmount" },
+  { Header: "FINAL AMOUNT", accessor: "finalAmount" },
   { Header: "DATE", accessor: "dateAdded" },
   { Header: "COMMENT", accessor: "comment" }
 ];
@@ -95,14 +95,14 @@ const CheckTable = ({onClose, isDarkMode, job, setJob}) => {
                         </p>
                       );
                     }
-                    else if (cell.column.Header === "INITIAL") {
+                    else if (cell.column.Header === "BY") {
                         data = (
                           <p className="text-sm font-bold text-navy-700 dark:text-white">
                             {cell.value}
                           </p>
                         );
                     }
-                    else if (cell.column.Header === "FINAL") {
+                    else if (cell.column.Header === "FINAL AMOUNT") {
                         data = (
                           <p className="text-sm font-bold text-navy-700 dark:text-white">
                             {cell.value}
